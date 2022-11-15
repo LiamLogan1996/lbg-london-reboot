@@ -1,6 +1,9 @@
-FROM mysql:latest
+FROM mcr.microsoft.com/mssql/server:2019-latest
 
-ENV MYSQL_ROOT_PASSWORD=root
+COPY ./database_products.sql .
 
-COPY ./database_products.sql /docker-entrypoint-initdb.d/
+ENV MSSQL_SA_PASSWORD=root
+ENV ACCEPT_EULA=Y
+
+RUN sqlcmd -i database_products.sql 
 
