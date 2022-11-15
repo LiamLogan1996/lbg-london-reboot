@@ -1,9 +1,8 @@
 FROM mcr.microsoft.com/mssql/server:2019-latest
 
-COPY ./database_products.sql .
+COPY ./database-products.sql .
 
-ENV MSSQL_SA_PASSWORD=root
+ENV MSSQL_SA_PASSWORD=Lloyds2022!
 ENV ACCEPT_EULA=Y
 
-RUN sqlcmd -i database_products.sql 
-
+ADD database-products.sql /docker-entrypoint-initdb.d
