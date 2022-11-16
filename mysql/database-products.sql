@@ -1,7 +1,7 @@
 CREATE Database Hackathon
 GO
 
-<<<<<<< HEAD
+
 USE Hackathon
 GO
 
