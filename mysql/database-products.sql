@@ -1,11 +1,11 @@
 CREATE Database Hackathon
 GO
 
+<<<<<<< HEAD
 USE Hackathon
 GO
 
 CREATE TABLE PRODUCTS (PRODUCT_ID INT PRIMARY KEY IDENTITY (1,1), ProductName VARCHAR(50) NOT NULL, ProductPrice FLOAT NOT NULL)
-GO
 
 INSERT INTO PRODUCTS values ('Coffee', 0.50)
 GO
