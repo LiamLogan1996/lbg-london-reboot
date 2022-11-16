@@ -1,12 +1,16 @@
-import mysql.connector
+import re
+import pyodbc
 
-connection = mysql.connector.connect(
-    user='root', password='root', host='mysql', port="3306", database='db')
+cnxn = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};"
+                      "Server=localhost,11433;"
+                      "Database=Hackathon;"
+                      "uid=sa;pwd=Lloyds2022!")
 print("DB is connected")
 
-cursor = connection.cursor()
-cursor.execute('Select * FROM products')
-products = cursor.fetchall()
-connection.close()
+cursor = cnxn.cursor()
+query = "SELECT * FROM PRODUCTS"
+cursor.execute(query)
 
-print(products)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)

@@ -1,12 +1,11 @@
-use db;
+CREATE Database Hackathon
+GO
 
+USE Hackathon
+GO
 
-CREATE TABLE products(
-    ProductID int not null AUTO_INCREMENT,
-    ProductName varchar(60) not null,
-    ProductPrice decimal(2,2) not null,
-    PRIMARY KEY (ProductID)
-);
+CREATE TABLE PRODUCTS (PRODUCT_ID INT PRIMARY KEY IDENTITY (1,1), ProductName VARCHAR(50) NOT NULL, ProductPrice FLOAT NOT NULL)
+GO
 
-INSERT INTO products(ProductName,ProductPrice)
-VALUES ("Credit card 1", 0.25),("Credit card 2",0.57);
+INSERT INTO PRODUCTS values ('Coffee', 0.50)
+GO
