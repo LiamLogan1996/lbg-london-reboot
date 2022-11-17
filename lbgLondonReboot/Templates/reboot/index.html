@@ -2,20 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
+    <center>
     <h1>Inflation Calculator</h1>
-    <p>Please enter your salary: </p>
-    <form>
-        Salary:<br> <input type="number" name="salary">
-        <br>
-        Rate of inflation:<br> <input type="number" name="inflation">
+    <div class="containers">
+    <p>Please submit your salary and inflation: </p>
+    <form action="" method="post">
+        {% csrf_token %}
+        Salary: <input type="number" name="salary">
+        {% csrf_token %}
+        Rate of inflation:<input type="number" name="inflation">
+        <button type="submit"><a href="/results">Submit</button>
     </form>
-    <div>
-        This is what you spend money on: **example** <br />
-        <strong>{{ example }}</strong><br />
     </div>
+    </center>
 
 </body>
-
+</html>

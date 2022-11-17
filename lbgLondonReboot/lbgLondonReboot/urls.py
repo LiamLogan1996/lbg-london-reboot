@@ -20,6 +20,7 @@ from reboot import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^results/', views.results, name='results'),
     url(r'^reboot/', include('reboot.urls')),
     url('admin/', admin.site.urls),
 ]
