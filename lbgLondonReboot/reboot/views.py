@@ -1,5 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from reboot.models import Product
+from django.db import router, transaction
+from django.shortcuts import render
+from decimal import ROUND_HALF_DOWN, Decimal
+
 
 def index(request):
     input_salary = request.POST.get(int, None)
@@ -9,10 +14,41 @@ def index(request):
 
     return render(request, 'reboot/index.html', context=context_dict)
 
-def results(request):
 
+def clear_cache(the_cache):
+    the_cache.clear()
+    # commit the transaction
+    db = router.db_for_write(the_cache.cache_model_class)
+    transaction.commit_unless_managed(using=db)
+
+
+def results(request):
     context_dict = {}
     return render(request, 'reboot/results.html', context=context_dict)
+
+
+def savings(request):
+    products = Product.objects.all()
+    productName = []
+    productPrice = []
+
+    for product in products:
+        productName.append(product.ProductName)
+        productPriceAppended = float(product.ProductPrice)
+        productPrice.append(productPriceAppended)
+
+    print(productName)
+    print(productPrice)
+
+    return render(request, "reboot/savings.html", {'product': products,  'labels': productName, 'data': productPrice, 'colors': ["#FF4136", "#0074D9"]})
+
+
+def savings1(request):
+    products = Product.objects.all()
+
+    return render(request, "reboot/savings.html", {'product': products,  'labels': ['F', 'M'], 'data': [52, 82], 'colors': ["#FF4136", "#0074D9"]
+                                                   })
+
 
 def salary_inflation_check(x, y):
     context_dict = {}
@@ -32,4 +68,4 @@ def salary_inflation_check(x, y):
     else:
         print("You have not entered a number")
 
-    return(context_dict)
+    return (context_dict)
