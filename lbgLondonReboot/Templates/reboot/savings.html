@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+  <head>
+    <title>Savings Analytics</title>
+  </head>
+  <center>
+  <h2>Savings Analysis</h2>
+  </center>
+  <body>
+    <div class="container">
+      <canvas id="myChart"></canvas>
+  </div>
+
+  <script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'pie',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
+
+          data: {
+              labels: {{labels|safe}},
+              datasets: [{
+                  data: {{data|safe}},
+                  backgroundColor: {{colors|safe}}
+              }]
+          },
+          options: {
+              title: {
+                  display: true,
+                  text: 'Savings Chart',
+                  fontColor: '#000'
+              },
+              legend: {
+                  disblay: true,
+                  position: 'right',
+                  labels: {
+                      fontColor: '#000'
+                  }
+              }
+
+          }
+
+
+      });
+
+  </script>
+    <center>
+      <table>
+        <caption>Saving Analysis</caption>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Product Monthly Spend Saving (£'s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Coffee</th>
+            <td>£20</td>
+        </tr>
+        <tr>
+            <th scope="row">Takeaways</th>
+            <td>£40</td>
+        </tr>
+        <tr>
+          <th scope="row">Total Month Saving</th>
+          <td>£40</td>
+      </tr>
+        </tbody>
+    </table>
+      <table>
+        <caption>Data From MySql Database</caption>
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Product Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stud in product %}
+          <tr>
+            <td>{{stud.ProductID}}</td>
+            <td>{{stud.ProductName}}</td>
+            <td>{{stud.ProductPrice}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table> 
+  </center>
+      <div class="btn-group">
+        <button type="button" class="button"><a href="/results">Results</button>
+        <button type="button" class="button"><a href="/reboot">Home</button>
+      </div>
+    </div>
+  </body>
+</html>

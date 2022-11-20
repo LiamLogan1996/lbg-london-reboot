@@ -7,5 +7,6 @@ pyodbc==4.0.34
 pytz==2020.1
 sqlparse==0.3.1
 sympy==1.4
+mysqlclient==2.1.0
 virtualenv==15.1.0
 virtualenvwrapper-win==1.2.5

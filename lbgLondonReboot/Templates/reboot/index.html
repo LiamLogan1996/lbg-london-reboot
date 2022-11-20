@@ -8,6 +8,7 @@
 <body>
     <center>
     <h1>Inflation Calculator</h1>
+    </center>
     <div class="containers">
     <p>Please submit your salary and inflation: </p>
     <form action="" method="post">
@@ -16,9 +17,8 @@
         {% csrf_token %}
         Rate of inflation:<input type="number" name="inflation">
         <button type="submit"><a href="/results">Submit</button>
+        <button type="submit"><a href="/savings">Savings</button>
     </form>
     </div>
-    </center>
-
 </body>
 </html>
