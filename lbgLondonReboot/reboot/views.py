@@ -4,6 +4,8 @@ from reboot.models import Product
 from django.db import router, transaction
 from django.shortcuts import render
 from decimal import ROUND_HALF_DOWN, Decimal
+from django.core.management.base import BaseCommand
+from django.core.cache import cache
 
 
 def index(request):
@@ -15,11 +17,10 @@ def index(request):
     return render(request, 'reboot/index.html', context=context_dict)
 
 
-def clear_cache(the_cache):
-    the_cache.clear()
-    # commit the transaction
-    db = router.db_for_write(the_cache.cache_model_class)
-    transaction.commit_unless_managed(using=db)
+class Command(BaseCommand):
+    def handle(self, *args, **kwargs):
+        cache.clear()
+        self.stdout.write('Cleared cache\n')
 
 
 def results(request):
