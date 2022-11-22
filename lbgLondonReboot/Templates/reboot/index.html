@@ -9,13 +9,18 @@
     <center>
     <h1>Inflation Calculator</h1>
     <div class="containers">
-    <p>Please submit your salary and inflation: </p>
-    <form action="" method="post">
+    <p>Please submit your gross monthly salary and inflation: </p>
+    <form id ="input form" method="post" action = "">
         {% csrf_token %}
-        Salary: <input type="number" name="salary">
-        {% csrf_token %}
-        Rate of inflation:<input type="number" name="inflation">
-        <button type="submit"><a href="/results">Submit</button>
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field.help_text }}
+            {{ field }}
+        {% endfor %}
+        <input type="submit" value="Submit" />
     </form>
     </div>
     </center>

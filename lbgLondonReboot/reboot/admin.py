@@ -1,5 +1,7 @@
-# Register your models here.
+# Import your models.
 from django.contrib import admin
-from reboot.models import User
+from .models import Product, Input
 
-admin.site.register(User)
+# Adding models to the admin interface.
+admin.site.register(Product)
+admin.site.register(Input)

@@ -1,35 +1,53 @@
-from django.http import HttpResponse
 from django.shortcuts import render
+from .models import Input, Product
+from .forms import InputForm
+
 
 def index(request):
-    input_salary = request.POST.get(int, None)
-    input_inflation = request.POST.get(int, None)
-
-    context_dict = salary_inflation_check(input_salary, input_inflation)
-
-    return render(request, 'reboot/index.html', context=context_dict)
+    form = InputForm()
+    if request.method == 'POST':
+        form = InputForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return results(request)
+        else:
+            print(form.errors)
+    return render(request, 'reboot/index.html', {'form': form})
 
 def results(request):
+    bill_spend = Product.objects.filter(ProductCategory='Bills').order_by('-ProductPrice')
+    context_dict = {'bill_product': bill_spend}
+    misc_spend = Product.objects.filter(ProductCategory='MiscSpend').order_by('-ProductPrice')
+    context_dict['misc_product'] = misc_spend
+    subscription_spend = Product.objects.filter(ProductCategory='Subscriptions').order_by('-ProductPrice')
+    context_dict['sub_product'] = subscription_spend
+    user_input = Input.objects.last()
+    salary = (user_input.salary_input)
+    inflation = (user_input.inflation_input)
+    context_dict['salary'] = salary
+    context_dict['inflation'] = inflation
+    context_dict['bill_spend'] = round(total(bill_spend), 2)
+    context_dict['misc_spend'] = round(total(misc_spend), 2)
+    context_dict['sub_spend'] = round(total(subscription_spend), 2)
+    context_dict['bill_percent'] = percent(context_dict['bill_spend'], salary)
+    context_dict['sub_percent'] = percent(context_dict['sub_spend'], salary)
+    context_dict['misc_percent'] = percent(context_dict['misc_spend'], salary)
 
-    context_dict = {}
-    return render(request, 'reboot/results.html', context=context_dict)
+    return render(request, 'reboot/results.html', context_dict)
 
-def salary_inflation_check(x, y):
-    context_dict = {}
-    if isinstance(x, int) or isinstance(x, float):
-        if x > 0:
-            context_dict['salary'] = x
-        else:
-            print("You have entered a negative salary")
-    else:
-        print("You have not entered a number")
+def saving(request):
 
-    if isinstance(y, int) or isinstance(y, float):
-        if y > 0:
-            context_dict['inflation'] = y
-        else:
-            print("You have entered a negative inflation")
-    else:
-        print("You have not entered a number")
+    return render(request, 'reboot/saving.html', {})
 
-    return(context_dict)
+def inflation(request):
+
+    return render(request, 'reboot/inflation.html', {})
+
+def total(spending):
+    total = 0
+    for spend in spending:
+        total += spend.ProductPrice
+    return total
+
+def percent(a, b):
+    return(round((a/b)*100, 2))
