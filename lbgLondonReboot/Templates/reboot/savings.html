@@ -3,6 +3,7 @@
 <html>
   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
   <head>
     <title>Savings Analytics</title>
   </head>
@@ -42,6 +43,22 @@
 
 </script>
   <body>
+    <div style="height: 60%; width: 40%; margin-top:5%; margin-left:10%" id="webchat" role="main"></div>
+    <script>
+      // Set  the CSS rules.
+      const styleSet = window.WebChat.createStyleSet({
+          rootHeight: '100%',
+          rootWidth: '50%',
+          backgroundColor: 'paleturquoise'
+       });
+ 
+     window.WebChat.renderWebChat({
+       directLine: window.WebChat.createDirectLine({
+           token: '<Your Direct Line token>'}),
+       styleSet
+     }, document.getElementById('webchat'));
+     
+   </script>
       <table>
 
         <thead>
