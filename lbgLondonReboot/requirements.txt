@@ -1,0 +1,12 @@
+asgiref==3.2.10
+Django==3.1.1
+mpmath==1.1.0
+mssql-django==1.1.3
+Pillow==9.0.0
+pyodbc==4.0.34
+pytz==2020.1
+sqlparse==0.3.1
+sympy==1.4
+mysqlclient==2.1.0
+virtualenv==15.1.0
+virtualenvwrapper-win==1.2.5
