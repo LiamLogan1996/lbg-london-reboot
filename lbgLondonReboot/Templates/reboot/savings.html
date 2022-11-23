@@ -13,7 +13,6 @@
     <div class="container">
       <canvas id="myChart"></canvas>
   </div>
-
   <script>
       var ctx = document.getElementById('myChart').getContext('2d');
       var myChart = new Chart(ctx, {
@@ -39,44 +38,19 @@
                       fontColor: '#000'
                   }
               }
-
           }
-
-
       });
 
   </script>
+  <div style="width:500px;height:100px;border:1px solid #000;float:right;">This is a rectangle!</div>
     <center>
       <table>
-        <caption>Saving Analysis</caption>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Product Monthly Spend Saving (£'s)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Coffee</th>
-            <td>£20</td>
-        </tr>
-        <tr>
-            <th scope="row">Takeaways</th>
-            <td>£40</td>
-        </tr>
-        <tr>
-          <th scope="row">Total Month Saving</th>
-          <td>£40</td>
-      </tr>
-        </tbody>
-    </table>
-      <table>
-        <caption>Data From MySql Database</caption>
         <thead>
           <tr>
             <th>Product ID</th>
             <th>Product Name</th>
             <th>Product Price</th>
+            <th>Product Category</th>
           </tr>
         </thead>
         <tbody>
@@ -85,6 +59,7 @@
             <td>{{stud.ProductID}}</td>
             <td>{{stud.ProductName}}</td>
             <td>{{stud.ProductPrice}}</td>
+            <td>{{stud.ProductCategory}}</td>
           </tr>
           {% endfor %}
         </tbody>

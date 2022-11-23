@@ -66,7 +66,7 @@ DATABASES = {
     # Local database used for testing the Python app. Once statisfied we will move to external database.
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'lbgLondonReboot/db.sqlite3',
     }
 
     # The settings below are used to connect to mysql in the container.
