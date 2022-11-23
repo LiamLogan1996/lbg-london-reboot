@@ -26,6 +26,17 @@ caption {
     caption-side: bottom;
 }
 
+
+.testing {
+  position:absolute; 
+  top: 520px; 
+  left: 550px; 
+  WIDTH: 300px; 
+  HEIGHT: 10px;
+  text-align: center;
+}
+
+
 table {
     padding: 20px;
     margin: 30px;

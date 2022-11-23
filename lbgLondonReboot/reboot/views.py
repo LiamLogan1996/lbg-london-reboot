@@ -62,7 +62,11 @@ def savings(request):
     productPrice = []
     productSavingsMisc = []
     productSavingsSubscriptions = []
-    Categories = ["Misc", "Subscriptions"]
+    savingitems = {}
+    totalsavings = 0
+    miscTotal = 0
+    subscrtotal = 0
+    Categories = ["Misc (£'s)", "Subscriptions (£'s)"]
 
     for product in products:
         productName.append(product.ProductName)
@@ -71,13 +75,18 @@ def savings(request):
 
         if product.ProductCategory == "MiscSpend":
             productSavingsMisc.append(product.ProductName)
+            savingitems[product.ProductName] = product.ProductPrice
+            miscTotal = miscTotal + product.ProductPrice
         elif product.ProductCategory == "Subscriptions":
             productSavingsSubscriptions.append(product.ProductName)
+            savingitems[product.ProductName] = product.ProductPrice
+            subscrtotal = subscrtotal + product.ProductPrice
+    
+    for productname, productprice in savingitems.items():
+        totalsavings = totalsavings + productprice
 
-    print(productSavingsMisc)
-    print(productSavingsSubscriptions)
 
-    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [len(productSavingsMisc), len(productSavingsSubscriptions)], 'colors': ["#FF4136", "#0074D9"]})
+    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [miscTotal, subscrtotal], 'colors': ["#FF4136", "#0074D9"], 'wheresavings': savingitems, 'savings': savingitems, 'totalsavings': totalsavings})
 
 
 def savings1(request):
