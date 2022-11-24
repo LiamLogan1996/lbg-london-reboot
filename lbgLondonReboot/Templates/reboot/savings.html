@@ -45,19 +45,25 @@
   <body>
     <div style="height: 60%; width: 40%; margin-top:5%; margin-left:10%" id="webchat" role="main"></div>
     <script>
-      // Set  the CSS rules.
-      const styleSet = window.WebChat.createStyleSet({
-          rootHeight: '100%',
-          rootWidth: '50%',
-          backgroundColor: 'paleturquoise'
-       });
- 
-     window.WebChat.renderWebChat({
-       directLine: window.WebChat.createDirectLine({
-           token: '5ojwJ5MSDiI.s85DUDUxB-WpeYfcNm86F9YhCFtNhoNHRXWuOFAgbsM'}),
-       styleSet
-     }, document.getElementById('webchat'));
-     
+
+      // Set style options.
+      const styleOptions = {
+         botAvatarInitials: 'BF',
+         userAvatarInitials: 'WC'
+      };
+
+      window.WebChat.renderWebChat(
+         {
+            directLine: window.WebChat.createDirectLine({
+               token: '5ojwJ5MSDiI.s85DUDUxB-WpeYfcNm86F9YhCFtNhoNHRXWuOFAgbsM'
+            }),
+            userID: 'lbg',
+            username: 'Web Chat User',
+            locale: 'en-US',
+            styleOptions
+         },
+         document.getElementById('webchat')
+      );
    </script>
       <table>
 
