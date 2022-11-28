@@ -6,6 +6,7 @@ from django.db import models
 # database once ready. One for the spending, second for the users inputs during a session.
 # To use locally you need to run - python manage.py makemigrations and python manage.py migrate.
 
+
 class Product(models.Model):
     ProductID = models.AutoField(primary_key=True)
     ProductCategory = models.CharField(max_length=100)
@@ -17,6 +18,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.ProductName
+
 
 class Input(models.Model):
     salary_input = models.FloatField(default=0)

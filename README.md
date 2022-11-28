@@ -1,9 +1,12 @@
 # lbg-london-reboot
+
 Hackathon Codebase for LBG London Hackathon
 
 Going through the steps to set up Django:
 
-Create a virtual environment: mkvirtualenv "name of virtual environment"
+Create a virtual environment (Windows): mkvirtualenv --python=<python-version> reboot #Put in the version of python you're using.
+
+Create a Virtual Env (Mac): python3 -m venv venv then run the following command to activate virtual env source venv/bin/activate
 
 Once cloned from repo, try pip install the requirements.txt via: pip install -r requirements.txt. You may need to change
 directory.
@@ -19,6 +22,6 @@ python manage.py migrate
 python populate_products.py
 python manage.py createsuperuser
 enter username, email (fake) and password.
-python manage.py runserver, add "/admin" to local host in web browser. 
-login and check products has been populated. 
+python manage.py runserver, add "/admin" to local host in web browser.
+login and check products has been populated.
 Try enter a salary and inflation on the home page.

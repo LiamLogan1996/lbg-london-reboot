@@ -14,12 +14,16 @@ def index(request):
             print(form.errors)
     return render(request, 'reboot/index.html', {'form': form})
 
+
 def results(request):
-    bill_spend = Product.objects.filter(ProductCategory='Bills').order_by('-ProductPrice')
+    bill_spend = Product.objects.filter(
+        ProductCategory='Bills').order_by('-ProductPrice')
     context_dict = {'bill_product': bill_spend}
-    misc_spend = Product.objects.filter(ProductCategory='MiscSpend').order_by('-ProductPrice')
+    misc_spend = Product.objects.filter(
+        ProductCategory='MiscSpend').order_by('-ProductPrice')
     context_dict['misc_product'] = misc_spend
-    subscription_spend = Product.objects.filter(ProductCategory='Subscriptions').order_by('-ProductPrice')
+    subscription_spend = Product.objects.filter(
+        ProductCategory='Subscriptions').order_by('-ProductPrice')
     context_dict['sub_product'] = subscription_spend
     user_input = Input.objects.last()
     salary = (user_input.salary_input)
@@ -35,13 +39,11 @@ def results(request):
 
     return render(request, 'reboot/results.html', context_dict)
 
-def saving(request):
-
-    return render(request, 'reboot/saving.html', {})
 
 def inflation(request):
 
     return render(request, 'reboot/inflation.html', {})
+
 
 def total(spending):
     total = 0
@@ -49,5 +51,37 @@ def total(spending):
         total += spend.ProductPrice
     return total
 
+
 def percent(a, b):
-    return(round((a/b)*100, 2))
+    return (round((a/b)*100, 2))
+
+
+def savings(request):
+    products = Product.objects.all()
+    productName = []
+    productPrice = []
+    productSavingsMisc = []
+    productSavingsSubscriptions = []
+    Categories = ["Misc", "Subscriptions"]
+
+    for product in products:
+        productName.append(product.ProductName)
+        productPriceAppended = float(product.ProductPrice)
+        productPrice.append(productPriceAppended)
+
+        if product.ProductCategory == "MiscSpend":
+            productSavingsMisc.append(product.ProductName)
+        elif product.ProductCategory == "Subscriptions":
+            productSavingsSubscriptions.append(product.ProductName)
+
+    print(productSavingsMisc)
+    print(productSavingsSubscriptions)
+
+    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [len(productSavingsMisc), len(productSavingsSubscriptions)], 'colors': ["#FF4136", "#0074D9"]})
+
+
+def savings1(request):
+    products = Product.objects.all()
+
+    return render(request, "reboot/savings.html", {'product': products,  'labels': ['F', 'M'], 'data': [52, 82], 'colors': ["#FF4136", "#0074D9"]
+                                                   })
