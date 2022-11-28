@@ -2,7 +2,9 @@ asgiref==3.2.10
 Django==3.1.1
 mpmath==1.1.0
 mssql-django==1.1.3
-Pillow==9.0.0
+mysqlclient==1.3.12
+Pillow==8.4.0
+PyMySQL==1.0.2
 pyodbc==4.0.34
 pytz==2020.1
 sqlparse==0.3.1
