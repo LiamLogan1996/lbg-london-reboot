@@ -22,7 +22,6 @@ class Product(models.Model):
 
 class Input(models.Model):
     salary_input = models.FloatField(default=0)
-    inflation_input = models.FloatField(default=0)
 
     class Meta:
         verbose_name = 'Input'
