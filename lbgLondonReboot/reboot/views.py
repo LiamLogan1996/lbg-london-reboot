@@ -151,13 +151,15 @@ def savings(request):
     products = Product.objects.all()
     productName = []
     productPrice = []
-    productSavingsMisc = []
+    productSavingsAlcohol = []
     productSavingsSubscriptions = []
+    productSavingsRestaurants = []
     savingitems = {}
     totalsavings = 0
-    miscTotal = 0
-    subscrtotal = 0
-    Categories = ["Alcohol (£'s)", "Subscriptions (£'s)"]
+    alcoholTotal = 0
+    subscrTotal = 0
+    restTotal = 0
+    Categories = ["Alcohol (£'s)", "Subscriptions (£'s)", "Eating Out (£'s)"]
 
     for product in products:
         productName.append(product.ProductName)
@@ -165,23 +167,32 @@ def savings(request):
         productPrice.append(productPriceAppended)
 
         if product.ProductCategory == "Alcohol":
-            productSavingsMisc.append(product.ProductName)
+            productSavingsAlcohol.append(product.ProductName)
             savingitems[product.ProductName] = product.ProductPrice
-            miscTotal = miscTotal + product.ProductPrice
+            alcoholTotal = alcoholTotal + product.ProductPrice
         elif product.ProductCategory == "Subscriptions":
             productSavingsSubscriptions.append(product.ProductName)
             savingitems[product.ProductName] = product.ProductPrice
-            subscrtotal = subscrtotal + product.ProductPrice
+            print(product.ProductPrice, 2)
+            subscrTotal = round(subscrTotal + product.ProductPrice, 2)
+        elif product.ProductCategory == "Restaurants":
+            productSavingsRestaurants.append(product.ProductName)
+            print(product.ProductName)
+            savingitems[product.ProductName] = product.ProductPrice
+            print(product.ProductPrice)
+            restTotal = restTotal + product.ProductPrice
+
     
     for productname, productprice in savingitems.items():
-        totalsavings = totalsavings + productprice
+        totalsavings = round(totalsavings + productprice, 2)
 
 
-    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [miscTotal, subscrtotal], 'colors': ["#FF4136", "#0074D9"], 'wheresavings': savingitems, 'savings': savingitems, 'totalsavings': totalsavings})
+
+    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [alcoholTotal, subscrTotal, restTotal], 'colors': ["#AADEA7", "#2D87BB", "#64C2A6"], 'wheresavings': savingitems, 'savings': savingitems, 'totalsavings': totalsavings})
 
 
 def savings1(request):
     products = Product.objects.all()
 
-    return render(request, "reboot/savings.html", {'product': products,  'labels': ['F', 'M'], 'data': [52, 82], 'colors': ["#FF4136", "#0074D9"]
+    return render(request, "reboot/savings.html", {'product': products,  'labels': ['F', 'M'], 'data': [52, 82], 'colors': ["#AADEA7", "#2D87BB", "#64C2A6"]
                                                    })
