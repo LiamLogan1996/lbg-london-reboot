@@ -1,46 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/styles.css' %}"
-    />
-    <style>
-      #customers {
-          font-family: Arial, Helvetica, sans-serif;
-          border-collapse: collapse;
-          width: 50%;
-      }
-
-      #customers td, #customers th {
-          border: 1px solid #ddd;
-          padding: 8px;
-      }
-
-      #customers tr:nth-child(even){background-color: #f2f2f2;}
-
-      #customers tr:hover {background-color: #ddd;}
-
-      #customers th {
-          padding-top: 12px;
-          padding-bottom: 12px;
-          text-align: left;
-          background-color: #04AA6D;
-          color: white;
-      }
-      <meta charset="UTF-8">
-      <title>Results Page</title>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-      div.a {
-      text-align: right;
-      }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
   </head>
+  <head>
+    <title>Spending</title>
+  </head>
+  <div class="header">
+    <a href="#default" class="logo">Lloyd's Banking Group</a>
+    <div class="header-right">
+      <a class="active" href="{% url 'results' %}">Spending Results</a>
+      <a href="{% url 'inflation' %}">Inflation Calculator</a>
+      <a href="{% url 'savings' %}">Savings Analytics</a>
+    </div>
+  </div>
+  <center>
+    <h2>Spending Page</h2>
+  </center>
   <body>
-    <h1>Home Page: Check out your spending: </h1>
+    <h3>Check out your spending: </h3>
     <h3>Your gross monthly salary is £{{salary}}</h3>
     <h4>
       You spend £{{bill_spend}} on bills, which is {{bill_percent}}% of your
@@ -159,4 +140,7 @@
     <h4>Would you like to try again:</h4>
     <button type="submit"><a href="{% url 'index' %}">Return</a></button>
   </body>
+  <div class="footer-left">
+    <p class="copyright">© Copyright 2022 Reboot Rebels</p>
+  </div>
 </html>

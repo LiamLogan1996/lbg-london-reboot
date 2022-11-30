@@ -26,14 +26,14 @@ def index(request):
         if form.is_valid():
             request.session['salary_input'] = form.cleaned_data['salary_input']
             salary_input = request.session['salary_input']
-            return results(request, salary_input)
+            return results(request)
         else:
             print(form.errors)
     context_dict['form'] = form
     return render(request, 'reboot/index.html', context_dict)
 
 
-def results(request, salary_input):
+def results(request):
     bill_spend = Product.objects.filter(
         ProductCategory='Bills').order_by('-ProductPrice')
     context_dict = {'bill_product': bill_spend}
@@ -49,8 +49,9 @@ def results(request, salary_input):
     alcohol_spend = Product.objects.filter(
         ProductCategory='Alcohol').order_by('-ProductPrice')
     context_dict['alcohol_product'] = alcohol_spend
-    context_dict['salary'] = salary_input
-    salary = salary_input
+    salary = request.session.get('salary_input')
+    context_dict['salary'] = salary
+    salary = salary
     context_dict['bill_spend'] = round(total(bill_spend), 2)
     context_dict['food_spend'] = round(total(food_spend), 2)
     context_dict['sub_spend'] = round(total(subscription_spend), 2)
@@ -93,10 +94,9 @@ def inflation(request):
     context_dict['sub_product'] = subscription_spend
     
     user_input = Input.objects.last()
-    salary = (user_input.salary_input)
-    inflation = (user_input.inflation_input)
+    salary = request.session.get('salary_input')
+    print(salary)
     context_dict['salary'] = salary
-    context_dict['inflation'] = inflation
     context_dict['bill_spend'] = round(total(bill_spend), 2)
     context_dict['food_spend'] = round(total(food_spend), 2)
     context_dict['alcohol_spend'] = round(total(alcohol_spend), 2)
@@ -157,14 +157,14 @@ def savings(request):
     totalsavings = 0
     miscTotal = 0
     subscrtotal = 0
-    Categories = ["Misc (£'s)", "Subscriptions (£'s)"]
+    Categories = ["Alcohol (£'s)", "Subscriptions (£'s)"]
 
     for product in products:
         productName.append(product.ProductName)
         productPriceAppended = float(product.ProductPrice)
         productPrice.append(productPriceAppended)
 
-        if product.ProductCategory == "MiscSpend":
+        if product.ProductCategory == "Alcohol":
             productSavingsMisc.append(product.ProductName)
             savingitems[product.ProductName] = product.ProductPrice
             miscTotal = miscTotal + product.ProductPrice

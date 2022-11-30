@@ -1,68 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
   <head>
     <meta charset="UTF-8" />
     <title>Home Page</title>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/styles.css' %}"
-    />
-    <style>
-      #customers {
-          font-family: Arial, Helvetica, sans-serif;
-          border-collapse: collapse;
-          width: 50%;
-      }
-
-      #customers td, #customers th {
-          border: 1px solid #ddd;
-          padding: 8px;
-      }
-
-      #customers tr:nth-child(even){background-color: #f2f2f2;}
-
-      #customers tr:hover {background-color: #ddd;}
-
-      #customers th {
-          padding-top: 12px;
-          padding-bottom: 12px;
-          text-align: left;
-          background-color: #04AA6D;
-          color: white;
-      }
-
-      /*.dropdown {
-        position: relative;
-        display: inline-block;
-      }
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        padding: 12px 16px;
-        z-index: 1;
-      }
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }*/
-
-      <meta charset="UTF-8">
-      <title>Results Page</title>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-      </style>
   </head>
+  <div class="header">
+    <a href="#default" class="logo">Lloyd's Banking Group</a>
+    <div class="header-right">
+      <a class="active" href="{% url 'index' %}">Home Page</a>
+    </div>
+  </div>
+  <center>
+    <h2>Spending Page</h2>
+  </center>
   <body>
-      <h1>Home Page: Check out your spending: </h1>
       <div class="containers">
-        <p>Please submit your gross monthly salary:</p>
+        <h4>Please submit your gross monthly salary:</h4>
         <form id="input form" method="post" action="">
           {% csrf_token %} {% for hidden in form.hidden_fields %} {{ hidden }}
           {% endfor %} {% for field in form.visible_fields %} {{ field.errors }}
@@ -162,13 +119,6 @@
         {% endfor %}
       </tbody>
     </table>
-    <button type="submit">
-      <a href="{% url 'savings' %}">Saving Calculator</a>
-    </button>
-    <button type="submit">
-      <a href="{% url 'inflation' %}">Inflation Calculator</a>
-    </button>
     <h4>Would you like to try again:</h4>
-    <button type="submit"><a href="{% url 'index' %}">Return</a></button>
-  </body>
+    <button type="submit" class="button"><a href="{% url 'index' %}">Return</a></button>
 </html>

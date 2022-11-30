@@ -7,6 +7,14 @@
   <head>
     <title>Savings Analytics</title>
   </head>
+  <div class="header">
+    <a href="#default" class="logo">Lloyd's Banking Group</a>
+    <div class="header-right">
+      <a class="active" href="{% url 'savings' %}">Savings Analysis</a>
+      <a href="{% url 'results' %}">Banking Results</a>
+      <a href="{% url 'inflation' %}">Inflation Calculator</a>
+    </div>
+  </div>
   <center>
   <h2>Savings Analysis</h2>
   </center>
@@ -43,7 +51,7 @@
 
 </script>
   <body>
-    <div style="height: 60%; width: 40%; margin-top:5%; margin-left:10%" id="webchat" role="main"></div>
+    <!-- <div style="height: 60%; width: 40%; margin-top:5%; margin-left:10%" id="webchat" role="main"></div>
     <script>
 
       // Set style options.
@@ -64,7 +72,7 @@
          },
          document.getElementById('webchat')
       );
-   </script>
+   </script> -->
       <table>
 
         <thead>
@@ -82,12 +90,12 @@
           {% endfor %}
         </tbody>
     </table> 
-    <label style="position:absolute; top: 480px; left: 650px; color: black; font-weight: bold;" for="display"> Potential Savings</label> 
+    <label style="color: black; display:block; font-weight: bold; margin-left: 150px;" for="display"> Potential Savings</label>
     <input type="textbox" name="display" id="display" class="testing" value="£{{ totalsavings }}" readonly="readonly">
-      <div class="btn-group">
-        <button type="button" class="button"><a href="/results">Results</button>
-        <button type="button" class="button"><a href="/reboot">Home</button>
-      </div>
-    </div>
   </body>
+  <div class="footer">
+    <div class="footer-left">
+      <p class="copyright">© Copyright 2022 Reboot Rebels</p>
+    </div>
+</div>
 </html>
