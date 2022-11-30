@@ -1,16 +1,163 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
   <head>
     <meta charset="UTF-8" />
-    <title>Title</title>
+    <title>Inflation Page</title>
   </head>
-  <h1>Inflation Page</h1>
+  
+  <div class="header">
+    <a href="#default" class="logo">Lloyd's Banking Group</a>
+    <div class="header-right">
+      <a class="active" href="{% url 'inflation' %}">Inflation Calculator</a>
+      <a href="{% url 'results' %}">Banking Results</a>
+      <a href="{% url 'savings' %}">Savings Analytics</a>
+    </div>
+  </div>
+  <h1><center>Inflation Page</center></h1>
+    <script src="index.js" type="text/javascript"></script>
+  </body>
   <body>
-    <h4>Return to results:</h4>
-    <button type="submit"><a href="{% url 'results' %}">Results</a></button>
-    <h4>Return to saving:</h4>
-    <button type="submit"><a href="{% url 'savings' %}">saving</a></button>
-    <h4>Return to homepage:</h4>
-    <button type="submit"><a href="{% url 'index' %}">Home</a></button>
+      <h3>Your Spending with Predicted Inflation</h3>
+      <h4> This calculator uses Consumer Price Index (CPI) inflation data for October 2022, from the Office of National 
+        Statistics. Your gross monthly salary is £{{salary}}. The inflation rate you have entered is {{inflation}}%</h4>
+  </script>
+  <body>
+    <div style="height: 60%; width: 40%; margin-top:5%; margin-left:10%" id="webchat" role="main"></div>
+    <script>
+      // Set  the CSS rules.
+      const styleSet = window.WebChat.createStyleSet({
+          rootHeight: '100%',
+          rootWidth: '50%',
+          backgroundColor: 'paleturquoise'
+       }); 
+   </script>
+   
+    <table align="right"; id="inflation_legend">
+      <caption style="text-align:left; caption-side: top;"> These are the predicted inflation amount used.</caption>
+      <tr>
+        <th>Bills</th>
+        <td>16.4%</td>
+      </tr>
+      <tr>
+        <th>Food</th>
+        <td>11.7%</td>
+      </tr>
+      <tr>
+        <th>Alcohol</th>
+        <td>6.2%</td>
+      </tr>
+      <tr>
+        <th>Subscriptions</th>
+        <td> 5.1% </td>
+      </tr>
+  </table>
+
+
+      <h4>
+      You spent £{{bill_total}} on bills, which is {{bill_percent}}% of
+      your income:
+      </h4>
+      <table id="customers_inflation">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Cost</th>
+            <th> Inflated Number</th>
+          </tr>
+        </thead>
+        <tbody>
+
+            {% for key, val2, val3 in bill_table %}
+              <tr>
+                <td>{{key}}</td>
+                <td>{{val2}}</td>
+                <td>{{ val3 }}</td>
+
+              </tr>
+              {% endfor %}
+
+        </tbody>
+      </table>
+      <h4>
+        You spend £{{food_spend}} on food, which is {{food_percent}}% of
+        your income:
+      </h4>
+      <table id="customers_inflation">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Cost</th>
+            <th> Inflated Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key, val1, val2 in food_table %}
+          <tr>
+            <td>{{key}}</td>
+  
+            <td>{{val1}}</td>
+
+            <td>{{val2}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <h4>
+        You spend £{{alcohol_spend}} on Alcohol items, which is {{alcohol_percent}}% of your income:
+      </h4>
+      <table id="customers_inflation">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Cost</th>
+            <th> Inflated Cost</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for key, val1, val2 in alcohol_table %}
+          <tr>
+            <td>{{key}}</td>
+  
+            <td>{{val1}}</td>
+            
+            <td>{{val2}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <h4>
+        You spend £{{sub_spend}} on Subscriptions, which is {{sub_percent}}% of your income:
+      </h4>
+      <table id="customers_inflation">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Cost</th>
+            <th> Inflated Cost</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for key, val1, val2 in sub_table %}
+          <tr>
+            <td>{{key}}</td>
+  
+            <td>{{val1}}</td>
+            
+            <td>{{val2}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    <div class="footer-left">
+      <p class="copyright">© Copyright 2022 Reboot Rebels</p>
+    </div>
+  </div>
+    
   </body>
 </html>
