@@ -47,7 +47,10 @@ def inflation(request):
     food_itemInfo = {}
     alcohol_itemInfo = {}
     subscriptions_itemInfo = {}
-
+    bill_diff = 0.0
+    food_diff = 0.0
+    alc_diff = 0.0
+    sub_diff = 0.0
     bill_spend = Product.objects.filter(
         ProductCategory='Bills').order_by('-ProductPrice')
     context_dict = {'bill_product': bill_spend}
@@ -77,22 +80,26 @@ def inflation(request):
 
     for prod in allProducts:
         if prod.ProductCategory == "Bills":            
-            bill_itemInfo[prod.ProductName] = [prod.ProductPrice, round(prod.ProductPrice * 1.117, 2)] #11/7% increase
-            bill_table = [[key, values[0], values[1]] for key, values in bill_itemInfo.items()]
+            bill_itemInfo[prod.ProductName] = [prod.ProductPrice, round(prod.ProductPrice * 1.117, 2), round(prod.ProductPrice * 1.117 - prod.ProductPrice, 2)] #11/7% increase
+            bill_diff += round((prod.ProductPrice * 1.117) - prod.ProductPrice, 2)
+            bill_table = [[key, values[0], values[1], values[2]] for key, values in bill_itemInfo.items()]
 
         elif prod.ProductCategory == "Food":
             food_itemInfo[prod.ProductName] = [prod.ProductPrice, round(prod.ProductPrice * 1.164, 2)] #16.4% increase
+            food_diff += round((prod.ProductPrice * 1.164) - prod.ProductPrice, 2)
             food_table = [[key, values[0], values[1]] for key, values in food_itemInfo.items()]
     
         elif prod.ProductCategory == "Alcohol":
             alcohol_itemInfo[prod.ProductName] = [prod.ProductPrice, round(prod.ProductPrice * 1.062, 2)] #6.2% increase
+            alc_diff += round((prod.ProductPrice * 1.062) - prod.ProductPrice, 2)
             alcohol_table = [[key, values[0], values[1]] for key, values in alcohol_itemInfo.items()]
 
         elif prod.ProductCategory == "Subscriptions":
             subscriptions_itemInfo[prod.ProductName] = [prod.ProductPrice, round(prod.ProductPrice * 1.051, 2)] #5.1% increase
+            sub_diff += round((prod.ProductPrice * 1.051) - prod.ProductPrice, 2)
             sub_table = [[key, values[0], values[1]] for key, values in subscriptions_itemInfo.items()]
 
-    return render(request, 'reboot/inflation.html', {'sub_percent': context_dict['sub_percent'], 'alcohol_percent': context_dict['alcohol_percent'], 'food_percent': context_dict['food_percent'], 'alcohol_spend' :context_dict['alcohol_spend'], 'sub_spend' :context_dict['sub_spend'], 'food_spend': context_dict['food_spend'], 'bill_total': context_dict['bill_spend'], 'bill_percent': context_dict['bill_percent'] , 'inflation': inflation, 'salary': salary, 'bill_table': bill_table, 'food_table':food_table, 'alcohol_table': alcohol_table, 'sub_table': sub_table})
+    return render(request, 'reboot/inflation.html', {'sub_diff': sub_diff , 'alc_diff': alc_diff, 'food_diff': food_diff, 'bill_diff': bill_diff, 'sub_percent': context_dict['sub_percent'], 'alcohol_percent': context_dict['alcohol_percent'], 'food_percent': context_dict['food_percent'], 'alcohol_spend' :context_dict['alcohol_spend'], 'sub_spend' :context_dict['sub_spend'], 'food_spend': context_dict['food_spend'], 'bill_total': context_dict['bill_spend'], 'bill_percent': context_dict['bill_percent'] , 'inflation': inflation, 'salary': salary, 'bill_table': bill_table, 'food_table':food_table, 'alcohol_table': alcohol_table, 'sub_table': sub_table})
 
 
 def total(spending):

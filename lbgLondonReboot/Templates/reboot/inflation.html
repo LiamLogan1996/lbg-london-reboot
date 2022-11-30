@@ -179,20 +179,29 @@
     <table align="right"; id="inflation_legend">
       <caption style="text-align:left; caption-side: top;"> These are the predicted inflation amount used.</caption>
       <tr>
+        <th> Category</th>
+        <th> Inflation Rate</th>
+        <th> Money Difference (£)</th>
+        </tr>
+      <tr>
         <th>Bills</th>
         <td>16.4%</td>
+        <td>{{bill_diff}}</td>
       </tr>
       <tr>
         <th>Food</th>
         <td>11.7%</td>
+        <td>{{food_diff}}</td>
       </tr>
       <tr>
         <th>Alcohol</th>
         <td>6.2%</td>
+        <td>{{alc_diff}}</td>
       </tr>
       <tr>
         <th>Subscriptions</th>
         <td> 5.1% </td>
+        <td>{{sub_diff}}</td>
       </tr>
   </table>
 
@@ -205,15 +214,17 @@
         <thead>
           <tr>
             <th>Transaction</th>
-            <th>Cost</th>
-            <th> Inflated Number</th>
+            <th>Cost circa 2021</th>
+            <th> Cost circa 2022 </th>
+            <th> Difference </th>
           </tr>
         </thead>
         <tbody>
 
-            {% for key, val2, val3 in bill_table %}
+            {% for key, val1, val2, val3 in bill_table %}
               <tr>
                 <td>{{key}}</td>
+                <td>{{ val1 }}</td>
                 <td>{{val2}}</td>
                 <td>{{ val3 }}</td>
 
