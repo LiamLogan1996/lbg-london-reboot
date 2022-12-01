@@ -26,7 +26,7 @@
         Statistics. Your gross monthly salary is £{{salary}}. The inflation rate you have entered is {{inflation}}%</h4>
   </script>
   <body>
-    <div style="height: 60%; width: 40%; margin-top:5%; margin-left:10%" id="webchat" role="main"></div>
+    
     <script>
       // Set  the CSS rules.
       const styleSet = window.WebChat.createStyleSet({
@@ -53,10 +53,9 @@
       <tr>
         <th>Subscriptions</th>
         <td> 5.1% </td>
-      </tr>
+      </tr>   
   </table>
-
-
+  
       <h4>
       You spent £{{bill_total}} on bills, which is {{bill_percent}}% of
       your income:
@@ -158,6 +157,13 @@
       <p class="copyright">© Copyright 2022 Reboot Rebels</p>
     </div>
   </div>
-    
+  <div class="footer-class">
+
+
+</div>
   </body>
+  <div style="height: 60%; width: 40%; margin-top:5%; margin-left:80%; disblay: block, background-color: coral;" id="webchat" role="main">
+    <iframe src="https://web.powerva.microsoft.com/environments/Default-2bea6838-1e0a-4bb7-8738-747572bf0f80/bots/new_bot_8b5b8544ea5b4602880290330ff738c5/webchat" frameborder="0" style="width: 300px; height: 300px ;"></iframe>
+
+  </div>
 </html>
