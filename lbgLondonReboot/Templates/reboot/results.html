@@ -20,14 +20,47 @@
   <center>
     <h2>Spending Page</h2>
   </center>
+  <div class="mysize" style="float:right">
+          <canvas id="myChart"></canvas>
+    </div>
+    <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
+
+        data: {
+            labels: {{labels|safe}},
+            datasets: [{
+                data: {{data|safe}},
+                backgroundColor: {{colors|safe}}
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Spending Chart',
+                fontColor: '#000'
+            },
+            legend: {
+                display: true,
+                position: 'right',
+                labels: {
+                    fontColor: '#000'
+                }
+            }
+        }
+    });
+    </script>
+
   <body>
     <h3>Check out your spending: </h3>
+     <div class="container">
     <h3>Your gross monthly salary is £{{salary}}</h3>
     <h4>
       You spend £{{bill_spend}} on bills, which is {{bill_percent}}% of your
       total income:
     </h4>
-    <table id="customers">
+    <table id="customers_inflation">
       <thead>
         <tr>
           <th>Transaction</th>
@@ -45,11 +78,12 @@
         {% endfor %}
       </tbody>
     </table>
+</div>
     <h4>
-      You spend £{{food_spend}} on food, which is {{food_percent}}% of your
+      You spent £{{food_spend}} on food, which is {{food_percent}}% of your
       total income:
     </h4>
-    <table id="customers">
+    <table id="customers_inflation">
       <thead>
         <tr>
           <th>Transaction</th>
@@ -67,10 +101,10 @@
       </tbody>
     </table>
     <h4>
-      You spend £{{sub_spend}} on subscriptions, which is {{sub_percent}}% of
+      You spent £{{sub_spend}} on subscriptions, which is {{sub_percent}}% of
       your income:
     </h4>
-    <table id="customers">
+    <table id="customers_inflation">
       <thead>
         <tr>
           <th>Transaction</th>
@@ -88,10 +122,10 @@
       </tbody>
     </table>
     <h4>
-      You spend £{{rest_spend}} on eating out, which is
+      You spent £{{rest_spend}} on eating out, which is
       {{rest_percent}}% of your income:
     </h4>
-    <table id="customers">
+    <table id="customers_inflation">
       <thead>
         <tr>
           <th>Transaction</th>
@@ -109,10 +143,10 @@
       </tbody>
     </table>
     <h4>
-      You spend £{{alcohol_spend}} on going out, which is
+      You spent £{{alcohol_spend}} on going out, which is
       {{alcohol_percent}}% of your income:
     </h4>
-    <table id="customers">
+    <table id="customers_inflation">
       <thead>
         <tr>
           <th>Transaction</th>
@@ -131,14 +165,14 @@
     </table>
 
     <h4>{{message}}</h4>
-    <button type="submit">
+    </script>
+    <button type="submit" class="button">
       <a href="{% url 'savings' %}">Saving Calculator</a>
     </button>
-    <button type="submit">
+    <button type="submit" class="button">
       <a href="{% url 'inflation' %}">Inflation Calculator</a>
     </button>
-    <h4>Would you like to try again:</h4>
-    <button type="submit"><a href="{% url 'index' %}">Return</a></button>
+    <button type="submit" class="button"><a href="{% url 'index' %}">Return</a></button>
   </body>
   <div class="footer-left">
     <p class="copyright">© Copyright 2022 Reboot Rebels</p>
