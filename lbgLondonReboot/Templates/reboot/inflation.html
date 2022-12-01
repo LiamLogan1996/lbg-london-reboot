@@ -17,13 +17,16 @@
       <a href="{% url 'savings' %}">Savings Analytics</a>
     </div>
   </div>
-  <h1><center>Inflation Page</center></h1>
+  <h1><center>Inflation: Consumer Price Index</center></h1>
     <script src="index.js" type="text/javascript"></script>
   </body>
   <body>
-      <h3>Your Spending with Predicted Inflation</h3>
-      <h4> This calculator uses Consumer Price Index (CPI) inflation data for October 2022, from the Office of National 
-        Statistics. Your gross monthly salary is £{{salary}}. The inflation rate you have entered is {{inflation}}%</h4>
+      <h3>Your gross monthly salary is £{{salary}}.</h3>
+      <h5> This calculator uses Consumer Price Index (CPI) inflation data for October 2022, from the Office of National 
+        Statistics. CPI is used to estimate the average variation between two periods in the price of products consumed per
+        household in the UK. This calculator uses a 12-month CPI, comparing the inflation rate of products and services between
+        October 2021 and October 2022. </h5>
+
   </script>
   <body>
     <div style="height: 60%; width: 40%; margin-top:5%; margin-left:10%" id="webchat" role="main"></div>
@@ -35,31 +38,131 @@
           backgroundColor: 'paleturquoise'
        }); 
    </script>
-   
+       
+  <div class="container" style="width:100%; float: right;">
+    <canvas id="myChart"></canvas>
+</div>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
+
+        data: {
+            labels: {{labels|safe}},
+            datasets: [{
+              label : ["Bills"],
+              barPercentage: 0.5,
+              barThickness: 6,
+              maxBarThickness: 8,
+              minBarLength: 2,
+              data: {{bill_data|safe}},
+              backgroundColor: '#ccff99',
+              borderColor: '#ccff99',
+            },
+            {
+              label : ["Food"],
+              barPercentage: 0.5,
+              barThickness: 6,
+              maxBarThickness: 8,
+              minBarLength: 2,
+              data: {{food_data|safe}},
+              backgroundColor: '#66ff66',
+              borderColor: '#66ff66',
+
+            }, 
+            {
+              label : ["Restaurant"],
+              barPercentage: 0.5,
+              barThickness: 6,
+              maxBarThickness: 8,
+              minBarLength: 2,
+              data: {{restaurant_data|safe}},
+              backgroundColor: '#00cc00',
+              borderColor: '#00cc00',
+
+            },
+            {
+              label : ["Going Out"],
+              barPercentage: 0.5,
+              barThickness: 6,
+              maxBarThickness: 8,
+              minBarLength: 2,
+              data: {{alc_data|safe}},
+              backgroundColor: '#009900',
+              borderColor: '#009900',
+
+            },
+            {
+              label : ["Subscriptions"],
+              barPercentage: 0.5,
+              barThickness: 6,
+              maxBarThickness: 8,
+              minBarLength: 2,
+              data: {{sub_data|safe}},
+              backgroundColor: '#006600',
+              borderColor: '#006600',
+
+            }
+             
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Inflation Chart',
+                fontColor: '#000000'
+            },
+            legend: {
+                display: true,
+                position: 'right',
+                labels: {
+                    fontColor: '#000000'
+                }
+            }
+        }
+    });
+    </script>
+
     <table align="right"; id="inflation_legend">
-      <caption style="text-align:left; caption-side: top;"> These are the predicted inflation amount used.</caption>
+      <h4><caption style="text-align:left; caption-side: top;"> These are the inflation rates as of November 2022. </caption></h4>
+      <thead id="customers_inflation">
+        <tr>
+          <th>Category</th> 
+          <th>Inflation Rate</th>
+          <th>Total Inflation (£)</th>
+        </tr>
+      </thead>
+      
       <tr>
         <th>Bills</th>
         <td>16.4%</td>
+        <td>£{{bill_total_inflation}}</td>
       </tr>
       <tr>
         <th>Food</th>
         <td>11.7%</td>
+        <td>£{{food_total_inflation}}</td>
       </tr>
       <tr>
-        <th>Alcohol</th>
+        <th>Restaurants</th>
+        <td> 9.6% </td>
+        <td>£{{restaurant_total_inflation}}</td>
+      </tr>
+      <tr>
+        <th>Going Out</th>
         <td>6.2%</td>
+        <td>£{{alcohol_total_inflation}}</td>
       </tr>
       <tr>
         <th>Subscriptions</th>
         <td> 5.1% </td>
+        <td>£{{sub_total_inflation}}</td>
       </tr>
   </table>
 
-
       <h4>
       You spent £{{bill_total}} on bills, which is {{bill_percent}}% of
-      your income:
+      your total income:
       </h4>
       <table id="customers_inflation">
         <thead>
@@ -67,15 +170,17 @@
             <th>Transaction</th>
             <th>Cost</th>
             <th> Inflated Number</th>
+            <th> Difference </th>
           </tr>
         </thead>
         <tbody>
 
-            {% for key, val2, val3 in bill_table %}
+            {% for key, val1, val2, val3 in bill_table %}
               <tr>
                 <td>{{key}}</td>
-                <td>{{val2}}</td>
-                <td>{{ val3 }}</td>
+                <td>£{{val1}} </td>
+                <td>£{{val2}}</td>
+                <td>£{{ val3 }}</td>
 
               </tr>
               {% endfor %}
@@ -83,8 +188,8 @@
         </tbody>
       </table>
       <h4>
-        You spend £{{food_spend}} on food, which is {{food_percent}}% of
-        your income:
+        You spent £{{food_spend}} on food, which is {{food_percent}}% of
+        your total income:
       </h4>
       <table id="customers_inflation">
         <thead>
@@ -92,22 +197,52 @@
             <th>Transaction</th>
             <th>Cost</th>
             <th> Inflated Cost</th>
+            <th> Difference</th>
           </tr>
         </thead>
         <tbody>
-          {% for key, val1, val2 in food_table %}
+          {% for key, val1, val2, val3 in food_table %}
           <tr>
             <td>{{key}}</td>
   
-            <td>{{val1}}</td>
+            <td>£{{val1}}</td>
 
-            <td>{{val2}}</td>
+            <td>£{{val2}}</td>
+            <td>£{{ val3 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      <h4>
+        You spent £{{alcohol_spend}} on going out, which is {{alcohol_percent}}% of your income:
+      </h4>
+      <table id="customers_inflation">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Cost</th>
+            <th> Inflated Cost</th>
+            <th> Difference</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for key, val1, val2, val3 in alcohol_table %}
+          <tr>
+            <td>{{key}}</td>
+  
+            <td>£{{val1}}</td>
+            
+            <td>£{{val2}}</td>
+
+            <td>£{{ val3 }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
       <h4>
-        You spend £{{alcohol_spend}} on Alcohol items, which is {{alcohol_percent}}% of your income:
+        You spent £{{sub_spend}} on subscriptions, which is {{sub_percent}}% of your income:
       </h4>
       <table id="customers_inflation">
         <thead>
@@ -115,23 +250,26 @@
             <th>Transaction</th>
             <th>Cost</th>
             <th> Inflated Cost</th>
-
+            <th> Difference</th>
           </tr>
         </thead>
         <tbody>
-          {% for key, val1, val2 in alcohol_table %}
+          {% for key, val1, val2, val3 in sub_table %}
           <tr>
             <td>{{key}}</td>
   
-            <td>{{val1}}</td>
+            <td>£{{val1}}</td>
             
-            <td>{{val2}}</td>
+            <td>£{{val2}}</td>
+
+            <td>£{{ val3 }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+
       <h4>
-        You spend £{{sub_spend}} on Subscriptions, which is {{sub_percent}}% of your income:
+        You spent £{{restaurant_spend}} on eating out, which is {{restaurant_percent}}% of your income:
       </h4>
       <table id="customers_inflation">
         <thead>
@@ -139,17 +277,20 @@
             <th>Transaction</th>
             <th>Cost</th>
             <th> Inflated Cost</th>
+            <th> Difference</th>
 
           </tr>
         </thead>
         <tbody>
-          {% for key, val1, val2 in sub_table %}
+          {% for key, val1, val2, val3 in restaurant_table %}
           <tr>
             <td>{{key}}</td>
   
-            <td>{{val1}}</td>
+            <td>£{{val1}}</td>
             
-            <td>{{val2}}</td>
+            <td>£{{val2}}</td>
+
+            <td>£{{ val3 }}</td>
           </tr>
           {% endfor %}
         </tbody>
