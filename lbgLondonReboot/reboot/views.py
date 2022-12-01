@@ -66,12 +66,7 @@ def results(request):
     spare = round(salary - (context_dict['bill_spend'] + context_dict['food_spend'] +
                             context_dict['sub_spend'] + context_dict['rest_spend'] +
                             context_dict['alcohol_spend']), 2)
-    data = [context_dict['bill_spend'], context_dict['food_spend'], context_dict['sub_spend'],
-            context_dict['rest_spend'], context_dict['alcohol_spend'], spare]
-    labels = ['Bills', 'Food', 'Subscriptions',
-              'Eating Out', 'Going Out', 'Savings']
-    data = [838.86, 346.89, 115.06, 247.04, 103.33]
-    data.append(spare)
+
     if spare > 0:
         context_dict['message'] = "You have the following left over at the end of the month £" + \
             str(spare) + "."
@@ -191,12 +186,12 @@ def savings(request):
         elif product.ProductCategory == "Subscriptions":
             productSavingsSubscriptions.append(product.ProductName)
             savingitems[product.ProductName] = product.ProductPrice
-            subscrtotal = round(subscrtotal + product.ProductPrice, 2)
+            subscrtotal = subscrtotal + product.ProductPrice
 
     for productname, productprice in savingitems.items():
         totalsavings = round(totalsavings + productprice, 2)
 
-    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [miscTotal, subscrtotal], 'colors': ["#40bf40", "#00ff00"], 'wheresavings': savingitems, 'savings': savingitems, 'totalsavings': totalsavings})
+    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [miscTotal, subscrtotal], 'colors': ["#FF4136", "#0074D9"], 'wheresavings': savingitems, 'savings': savingitems, 'totalsavings': totalsavings})
 
 
 def savings1(request):
