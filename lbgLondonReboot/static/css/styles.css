@@ -9,8 +9,6 @@ body {
   padding: 0 20px;
   width: 920px;
   margin: 0 auto;
-  width:70%;
-  display: inline-flex;
 }
 
 .mysize {
@@ -348,8 +346,4 @@ text-align: right;
   text-align: left;
   background-color: #04AA6D;
   color: white;
-}
-#footer-class{
-  width: 40%;
-  display: inline-flex;
 }
