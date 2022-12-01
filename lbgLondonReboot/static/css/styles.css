@@ -11,6 +11,12 @@ body {
   margin: 0 auto;
 }
 
+.mysize {
+    width:40%;
+    height:40%;
+    padding-left: 60%}
+
+
 thead,
 tfoot {
   background-color: #087038;
@@ -90,6 +96,32 @@ td {
   user-select: none;
   -webkit-user-select: none;
   float: left;
+  touch-action: manipulation;
+}
+
+.butt {
+  align-items: center;
+  background-color: #087038;
+  border: 2px solid #111;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #111;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  height: 48px;
+  justify-content: center;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  margin: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  left-margin: 25px;
   touch-action: manipulation;
 }
 

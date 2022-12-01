@@ -65,12 +65,21 @@ def results(request):
     spare = round(salary - (context_dict['bill_spend'] + context_dict['food_spend'] +
                                             context_dict['sub_spend'] + context_dict['rest_spend'] +
                                             context_dict['alcohol_spend']), 2)
-
+    data = [context_dict['bill_spend'], context_dict['food_spend'], context_dict['sub_spend'],
+                            context_dict['rest_spend'], context_dict['alcohol_spend'], spare]
+    labels = ['Bills', 'Food', 'Subscriptions', 'Eating Out', 'Going Out', 'Savings']
+    data = [838.86, 346.89, 115.06, 247.04, 103.33]
+    data.append(spare)
     if spare > 0:
         context_dict['message'] = "You have the following left over at the end of the month £" + str(spare) +"."
     else:
         context_dict['message'] = "You are currently spending more than you are bring in. Please check out our help page for advice on what to do next."
-    return render(request, 'reboot/results.html', context_dict)
+    return render(request, 'reboot/results.html', {'labels': ['Bills', 'Food', 'Subscriptions', 'Eating Out', 'Going Out', 'Savings'], 'data': data, 'colors': ["#40bf40", "#00ff00", "#00ff55", "#009900", "#008000", "#004d00"],
+                  'message': context_dict['message'], 'alcohol_percent': context_dict['alcohol_percent'], 'rest_percent': context_dict['rest_percent'], 'sub_percent': context_dict['sub_percent'],
+                'food_percent': context_dict['food_percent'], 'bill_percent': context_dict['bill_percent'], 'sub_percent': context_dict['sub_percent'], 'salary': salary,
+                'alcohol_spend': context_dict['alcohol_spend'], 'rest_spend': context_dict['rest_spend'], 'sub_spend': context_dict['sub_spend'],
+                  'food_spend': context_dict['food_spend'], 'bill_spend': context_dict['bill_spend'], 'alcohol_product': context_dict['alcohol_product'],
+                  'rest_product': context_dict['rest_product'], 'sub_product': context_dict['sub_product'], 'food_product': context_dict['food_product'], 'bill_product': context_dict['bill_product']})
 
 
 def inflation(request):
@@ -157,7 +166,7 @@ def savings(request):
     totalsavings = 0
     miscTotal = 0
     subscrtotal = 0
-    Categories = ["Alcohol (£'s)", "Subscriptions (£'s)"]
+    Categories = ["Going Out (£'s)", "Subscriptions (£'s)"]
 
     for product in products:
         productName.append(product.ProductName)
@@ -167,17 +176,17 @@ def savings(request):
         if product.ProductCategory == "Alcohol":
             productSavingsMisc.append(product.ProductName)
             savingitems[product.ProductName] = product.ProductPrice
-            miscTotal = miscTotal + product.ProductPrice
+            miscTotal = round(miscTotal + product.ProductPrice, 2)
         elif product.ProductCategory == "Subscriptions":
             productSavingsSubscriptions.append(product.ProductName)
             savingitems[product.ProductName] = product.ProductPrice
-            subscrtotal = subscrtotal + product.ProductPrice
+            subscrtotal = round(subscrtotal + product.ProductPrice, 2)
     
     for productname, productprice in savingitems.items():
-        totalsavings = totalsavings + productprice
+        totalsavings = round(totalsavings + productprice, 2)
 
 
-    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [miscTotal, subscrtotal], 'colors': ["#FF4136", "#0074D9"], 'wheresavings': savingitems, 'savings': savingitems, 'totalsavings': totalsavings})
+    return render(request, "reboot/savings.html", {'product': products,  'labels': Categories, 'data': [miscTotal, subscrtotal], 'colors': ["#40bf40", "#00ff00"], 'wheresavings': savingitems, 'savings': savingitems, 'totalsavings': totalsavings})
 
 
 def savings1(request):
